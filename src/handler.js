@@ -51,26 +51,55 @@ const addArticle = async (req, res) => {
     }
 };
 
-// Mendapatkan semua artikel
-const getAllArticles = async (req, res) => {
-  try {
-      // Query to get all articles
-      const sql = `SELECT * FROM articles ORDER BY createdAt DESC`;
-      const [rows] = await pool.query(sql);
-
-      res.status(200).json({
-          status: 'success',
-          data: rows,
-      });
-  } catch (error) {
-      console.error('Error fetching articles:', error.message); // Log the error to the console
-      res.status(500).json({
+// Mendapatkan semua artikel atau artikel sesuai parameter query string
+const getArticles = async (req, res) => {
+    const { plantType, title } = req.query; // Extract query parameters
+  
+    try {
+      let query = 'SELECT * FROM articles';
+      const params = [];
+      const conditions = [];
+  
+      // Add conditions for plantType and title if they exist
+      if (plantType) {
+        conditions.push('plantType = ?');
+        params.push(plantType);
+      }
+  
+      if (title) {
+        conditions.push('title LIKE ?');
+        params.push(`%${title}%`); // Use wildcard for partial matching
+      }
+  
+      // If there are conditions, append them to the query
+      if (conditions.length > 0) {
+        query += ` WHERE ${conditions.join(' AND ')}`;
+      }
+  
+      // Execute the query
+      const [rows] = await pool.query(query, params);
+  
+      // Handle no results
+      if (rows.length === 0) {
+        return res.status(404).json({
           status: 'error',
-          message: error.message || 'Internal Server Error',
+          message: 'No articles found matching the criteria.',
+        });
+      }
+  
+      // Return results
+      res.status(200).json({
+        status: 'success',
+        data: rows,
       });
-  }
-};
-
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        status: 'error',
+        message: 'An error occurred while retrieving articles.',
+      });
+    }
+  };  
 
 // Mendapatkan artikel berdasarkan ID
 const getArticleById = async (req, res) => {
@@ -190,7 +219,7 @@ const deleteArticle = async (req, res) => {
 
 module.exports = {
   addArticle,
-  getAllArticles,
+  getArticles,
   getArticleById,
   updateArticle,
   deleteArticle,
