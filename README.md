@@ -1,4 +1,4 @@
-# Leaf Sense Article API
+# Leaf Sense Article API - Bangkit Capstone Project
 
 This API provides a service for managing educational articles related to plant care and diseases. It supports CRUD operations for articles, allowing users to retrieve, create, update, and delete content efficiently.
 
@@ -13,7 +13,7 @@ This API provides a service for managing educational articles related to plant c
 
 ### Prerequisites
 
-- Node.js (version 14 or higher)
+- Node.js (version 20 is recommended)
 - npm (Node Package Manager)
 - A database (e.g., MySQL) for storing article data
 
@@ -29,7 +29,7 @@ This API provides a service for managing educational articles related to plant c
 2. Install the dependencies:
 
    ```bash
-   npm install
+   npm install i
    ```
 
 3. Set up environment variables:
@@ -39,7 +39,7 @@ This API provides a service for managing educational articles related to plant c
 4. Start the server:
 
    ```bash
-   npm start
+   npm run start
    ```
 
 ## API Endpoints
@@ -203,14 +203,6 @@ The API provides error responses with appropriate status codes and messages. Com
 - **400 Bad Request**: When the request body is invalid.
 - **404 Not Found**: When the specified resource cannot be found.
 - **500 Internal Server Error**: For unexpected errors during processing.
-
-## Contributing
-
-Contributions are welcome! If you have suggestions for improvements or new features, please open an issue or submit a pull request.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
 
