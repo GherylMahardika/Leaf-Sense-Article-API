@@ -1,5 +1,5 @@
-const { storage, bucketName } = require('./storage');
-const pool = require('./db');
+const { storage, bucketName } = require('../service/storage');
+const pool = require('../service/db');
 const { nanoid } = require('nanoid');
 const path = require('path');
 
@@ -24,7 +24,7 @@ const addArticle = async (req, res) => {
         });
 
         blobStream.on('finish', async () => {
-            const publicUrl = `https://storage.googleapis.com/${bucketName}/${fileName}`;
+            const publicUrl = `https://storage.googleapis.com/${bucketName}/article-image/${fileName}`;
 
             // Save to MySQL database
             const id = nanoid(16);
